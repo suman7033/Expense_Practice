@@ -1,28 +1,43 @@
-import React,{useState} from 'react'
+import React from 'react';
 import "./navbar.css";
+import {Link} from "react-router-dom"
 
 const Navbar = () => {
-    const [menuOpen, setMenuOpen] = useState(false);
 
-    const toggleMenu = () => {
-        setMenuOpen(!menuOpen);
-    };
-  return (
-    <nav className="navbar">
-    <div className="navbar-container">
-        <a href="#" className="navbar-logo">Logo</a>
-        <div className="navbar-toggle" onClick={toggleMenu}>
-            &#9776; {/* Hamburger menu icon */}
-        </div>
-        <ul className={`navbar-menu ${menuOpen ? 'active' : ''}`}>
-            <li className="navbar-item"><a href="#" className="navbar-link">Home</a></li>
-            <li className="navbar-item"><a href="#" className="navbar-link">About</a></li>
-            <li className="navbar-item"><a href="#" className="navbar-link">Services</a></li>
-            <li className="navbar-item"><a href="#" className="navbar-link">Contact</a></li>
+    return (
+        <nav className="navbar">
+      <div className="navbar-left">
+        <Link to="/" className="logo">
+          <img src="https://t4.ftcdn.net/jpg/04/95/57/95/360_F_495579534_5cKHEXiMXBVjcoOATCPH5gajgPcyZk8o.jpg" alt="Logo" />
+        </Link>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
         </ul>
-    </div>
-</nav>
-  )
-}
+        <div className="icons">
+          <i className="fas fa-search"></i>
+          <i className="fas fa-bell"></i>
+        </div>
+      </div>
+      <div className="navbar-right">
+        <ul>
+          <li>
+            <Link to="/profile">Profile</Link>
+          </li>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+          <li>
+            <Link to="/logout">Logout</Link>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    );
+};
 
-export default Navbar
+export default Navbar;

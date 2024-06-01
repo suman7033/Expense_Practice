@@ -1,67 +1,72 @@
-/* src/components/Navbar.css */
 .navbar {
-    background-color: #333;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #e9bcbc;
+  color: #fff;
 }
 
-.navbar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+.navbar-left {
+  display: flex;
+  align-items: center;
 }
 
-.navbar-logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
+.logo {
+  margin-right: 1rem;
+  border-radius: 10px;
 }
 
-.navbar-menu {
-    list-style-type: none;
-    display: flex;
-    margin: 0;
-    padding: 0;
+.logo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
 }
 
-.navbar-item {
-    margin-left: 20px;
+.navbar-left ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
 }
 
-.navbar-link {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
+.navbar-left li {
+  margin-right: 1rem;
+  font-size: 25px;
 }
 
-.navbar-link:hover {
-    text-decoration: underline;
+.navbar-left a {
+  color: #fff;
+  text-decoration: none;
 }
 
-@media (max-width: 768px) {
-    .navbar-menu {
-        flex-direction: column;
-        display: none;
-        width: 100%;
-        text-align: center;
-    }
+.icons {
+  margin-left: 1rem;
+}
 
-    .navbar-item {
-        margin: 10px 0;
-    }
+.icons i {
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
+}
 
-    .navbar-menu.active {
-        display: flex;
-    }
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
 
-    .navbar-toggle {
-        display: block;
-        cursor: pointer;
-        font-size: 24px;
-    }
+.navbar-right ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navbar-right li {
+  margin-right: 1rem;
+  font-size: 16px;
+}
+
+.navbar-right a {
+  color: #fff;
+  text-decoration: none;
 }

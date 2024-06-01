@@ -1,0 +1,50 @@
+.ragisterDiv {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .formDiv {
+    background-color: rebeccapurple;
+    max-width: 500px; /* Increased max-width */
+    padding: 2rem 8rem 5rem 5rem; /* Adjusted padding */
+    margin-top: 10px;
+    border-radius: 10px;
+  }
+  
+  .formDiv h2 {
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  
+  .formDiv label {
+    color: #fff;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .formDiv input[type="email"],
+  .formDiv input[type="password"],
+  .formDiv input[type="text"]{
+    width: 120%;
+    padding: 12px; /* Increased padding */
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 6px;
+  }
+  
+  .formDiv button {
+    width: 110%;
+    padding: 12px;
+    background-color: #fff;
+    color: rgb(50, 169, 44);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .formDiv button:hover {
+    background-color: #cced25;
+  }
+
+  
+  

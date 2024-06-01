@@ -1,0 +1,62 @@
+.profile-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #5bcadb;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 10px;
+  }
+  
+  .profile-header {
+    margin-bottom: 20px;
+  }
+  
+  .profile-image {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+  }
+  
+  .profile-name {
+    color: #333;
+    margin: 10px 0;
+  }
+  
+  .profile-title {
+    color: grey;
+    margin: 5px 0;
+  }
+  
+  .profile-university {
+    margin-bottom: 20px;
+  }
+  
+  .profile-social-icons {
+    margin-bottom: 20px;
+  }
+  
+  .social-icon {
+    display: inline-block;
+    margin: 0 5px;
+    font-size: 20px;
+    color: #deadad;
+  }
+  
+  .contact-button {
+    border: none;
+    outline: none;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .contact-button:hover {
+    background-color: #0056b3;
+  }
+  
