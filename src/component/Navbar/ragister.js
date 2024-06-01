@@ -1,50 +1,66 @@
 import React, { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './ragister.css';
-import { auth,db } from '../firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { setDoc,doc } from 'firebase/firestore';
+import { useDispatch } from 'react-redux';
+import {loginAction} from '../../store/loginSlice';
 
 const Ragister = () => {
   const nameVal = useRef("");
   const emailVal = useRef("");
   const passwordVal = useRef("");
-  const Navigate=useNavigate();
+  const navigate = useNavigate();
+  const dispatch=useDispatch();
 
   const RagisterHandler = async (e) => {
     e.preventDefault();
-    const name = nameVal.current.value;
-    const email = emailVal.current.value;
-    const password = passwordVal.current.value;
+    const nameValue = nameVal.current.value;
+    const emailValue = emailVal.current.value;
+    const passwordValue = passwordVal.current.value;
 
-
-    try {
-      await createUserWithEmailAndPassword(auth ,email, password);
-      const user = auth.currentUser;
-      console.log(user);
-      if(user){
-        await setDoc(doc(db, "Users", user.uid),{
-          email: user.email,
-          name: name
-        })
+    fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBCJ7q8tYHYkhAi05SW5W62vYrUYWG1Zss", {
+      method: 'POST',
+      body: JSON.stringify({
+        email: emailValue,
+        password: passwordValue,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": 'application/json'
       }
-      console.log(name);
-      console.log("User registered successfully");
-      toast.success("Registered successfully",{
-         position: "top-center"
+    })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        return res.json().then((data) => {
+          let errorMessage = 'Authentication failed';
+          if (data && data.error && data.error.message) {
+            errorMessage = data.error.message;
+          }
+          throw new Error(errorMessage);
+        });
+      }
+    })
+    .then((data) => {
+      console.log("data",data);
+      toast.success("Registered successfully", {
+        position: "top-center"
       });
-      setTimeout(()=>{
-        Navigate('/login');
-      },1000)
+      localStorage.setItem("tokenId",data.idToken);
+      localStorage.setItem("Name", nameValue);
+      dispatch(loginAction.ragister(data));
 
-    } catch (error) {
-      console.log(error);
-      toast.error(error.message,{
-        position: "top-center" 
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    })
+    .catch((err) => {
+      toast.error(err.message, {
+        position: "top-center"
       });
-    }
+    });
   };
 
   return (

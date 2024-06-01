@@ -11,6 +11,9 @@
   display: flex;
   align-items: center;
 }
+.logout{
+  cursor: pointer;
+}
 
 .logo {
   margin-right: 1rem;

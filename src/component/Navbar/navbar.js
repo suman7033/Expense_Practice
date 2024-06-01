@@ -1,8 +1,28 @@
 import React from 'react';
 import "./navbar.css";
 import {Link} from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { loginAction } from '../../store/loginSlice';
 
 const Navbar = () => {
+  const dispatch=useDispatch()
+  const isRagister=useSelector((state)=>state.login.showLogin)
+
+   const LogoutHandler=()=>{
+    if(isRagister){
+      toast.info("you are logout", {
+        position: "top-center"
+      });
+        dispatch(loginAction.logout())
+    }else{
+      toast.info("already logout", {
+        position: "top-center"
+      });
+    }
+     
+   }
 
     return (
         <nav className="navbar">
@@ -31,8 +51,8 @@ const Navbar = () => {
           <li>
             <Link to="/login">Login</Link>
           </li>
-          <li>
-            <Link to="/logout">Logout</Link>
+          <li className="logout" onClick={LogoutHandler}>
+            Logout
           </li>
         </ul>
       </div>

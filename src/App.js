@@ -1,4 +1,5 @@
 import React from 'react';
+import './App.css'
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,15 +15,25 @@ import Profile from "./component/Navbar/profile";
 import Login from "./component/Navbar/login";
 import Ragister from './component/Navbar/ragister';
 import Footer from './component/Footer/footer';
+import { useSelector } from 'react-redux';
+import { loginAction } from './store/loginSlice';
+import AddExpense from './component/Middle/addExpense';
+
 const App = () => {
+  const isRagister=useSelector((state)=>state.login.showLogin)
   return (
     <BrowserRouter>
-    <Navbar/>
+      <Navbar/>
+    <div className='btn'>
+      <button>AddExpense</button>
+    </div>
+ 
+     
     <Routes>
-      <Route exact path="/" element={<Home/>} />
-      <Route exact path="/profile" element={<Profile/>}/>
+      <Route exact path="/" element={isRagister? <Home/>: <Login/>} />
+      <Route exact path="/profile" element={isRagister ? <Profile/>:<Login/>}/>
       <Route exact path="/login" element={<Login/>} />
-      <Route exact path="/about" element={<About/>}/>
+      <Route exact path="/about" element={isRagister ? <About/>: <Login/>}/>
       <Route exact path='/ragister' element={<Ragister/>}/>
     </Routes>
     <Footer/>
