@@ -24,9 +24,9 @@ const expenseSlice=createSlice({
       },
       deleteExpense(state,action){
         const id=action.payload.id;
-        const reqindex=state.expenses.findIndex((item)=>item.id===id);
+        const reqindex=state.expense.findIndex((item)=>item.id===id);
         state.totalAmount=state.totalAmount-action.payload.amount;
-        state.expenses.splice(reqindex,1);
+        state.expense.splice(reqindex,1);
       },
       editExpense(state,action){
          state.editedExpense=action.payload;

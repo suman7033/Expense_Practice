@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './showExpense.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useSelector, useDispatch } from 'react-redux';
-// import { deleteExpense, updateExpense } from '../../store/expenseStore';
+import { expenseAction } from '../../store/expenseStore';
 
 const ShowExpense = () => {
   const dispatch = useDispatch();
@@ -12,10 +14,20 @@ const ShowExpense = () => {
   const [editedAmount, setEditedAmount] = useState('');
   const [editedType, setEditedType] = useState('');
 
-  const handleDelete = (id) => {
-    // Dispatch delete action
-    // dispatch(deleteExpense(id));
-    console.log(`Deleting expense with id: ${id}`);
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`https://expensepractice-8069b-default-rtdb.firebaseio.com/user/${id}.json`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete expense.");
+      }
+      dispatch(expenseAction.deleteExpense(id));
+      toast.success('Expense deleted successfully!');
+    } catch (error) {
+      toast.error('Failed to delete expense.');
+      console.log(error);
+    }
   };
 
   const handleEdit = (expense) => {
@@ -25,22 +37,37 @@ const ShowExpense = () => {
     setEditedType(expense.type);
   };
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
     const updatedExpense = {
-      id: editingExpense,
       name: editedName,
       amount: editedAmount,
       type: editedType,
     };
-    // Dispatch update action
-    // dispatch(updateExpense(updatedExpense));
-    console.log('Updating expense', updatedExpense);
-    setEditingExpense(null);
+    try {
+      const response = await fetch(`https://expensepractice-8069b-default-rtdb.firebaseio.com/user/${editingExpense}.json`, {
+        method: 'PATCH',
+        body: JSON.stringify(updatedExpense),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update expense.");
+      }
+      const updatedExpenseData = { id: editingExpense, ...updatedExpense };
+      dispatch(expenseAction.updateExpense(updatedExpenseData));
+      toast.success('Expense updated successfully!');
+      setEditingExpense(null);
+    } catch (error) {
+      toast.error('Failed to update expense.');
+      console.log(error);
+    }
   };
 
   return (
     <div className="expense-list-container">
+      <ToastContainer />
       <h1>Show Expenses</h1>
       {expenses.length === 0 ? (
         <p>No expenses found.</p>
@@ -52,23 +79,23 @@ const ShowExpense = () => {
                 <form onSubmit={handleUpdate} className="edit-form">
                   <div className="form-group">
                     <label>Expense Name</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={editedName}
                       onChange={(e) => setEditedName(e.target.value)}
                     />
                   </div>
                   <div className="form-group">
                     <label>Amount</label>
-                    <input 
-                      type="number" 
+                    <input
+                      type="number"
                       value={editedAmount}
                       onChange={(e) => setEditedAmount(e.target.value)}
                     />
                   </div>
                   <div className="form-group">
                     <label>Type</label>
-                    <select 
+                    <select
                       value={editedType}
                       onChange={(e) => setEditedType(e.target.value)}
                     >
