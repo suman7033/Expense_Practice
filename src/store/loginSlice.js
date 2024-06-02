@@ -1,10 +1,12 @@
 import {createSlice} from "@reduxjs/toolkit";
+import showExpense from "../component/Middle/showExpense";
 
 
 const initialLoginState = {
     showLogin: false,
     token: "",
     email: "",
+    showExpense: false,
   };
   
   const loginSlice = createSlice({
@@ -25,7 +27,9 @@ const initialLoginState = {
         state.token = "";
         state.email = "";
         state.showLogin=false;
-
+      },
+      showExpenseHandler(state,action){
+         state.showExpense=!state.showExpense;
       },
       toggleShowLogin(state) {
         state.showLogin = !state.showLogin;

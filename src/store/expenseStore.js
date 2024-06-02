@@ -19,7 +19,7 @@ const expenseSlice=createSlice({
          state.loading=false;
       },
       addExpense(state,action){
-         state.expenses.push(action.payload);
+         state.expense.push(action.payload);
           state.totalAmount+=Number(action.payload.amount);
       },
       deleteExpense(state,action){

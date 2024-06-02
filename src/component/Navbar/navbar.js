@@ -21,7 +21,6 @@ const Navbar = () => {
         position: "top-center"
       });
     }
-     
    }
 
     return (
@@ -49,7 +48,7 @@ const Navbar = () => {
             <Link to="/profile">Profile</Link>
           </li>
           <li>
-            <Link to="/login">Login</Link>
+            <Link to="/login">{isRagister ? '🔓' : 'login'}</Link>
           </li>
           <li className="logout" onClick={LogoutHandler}>
             Logout

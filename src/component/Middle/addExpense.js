@@ -1,30 +1,60 @@
-import React,{useState} from 'react';
+import React,{useRef, useState} from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './addExpense.css';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { expenseAction } from '../../store/expenseStore';
 
 
 const AddExpense = () => {
-  const [expense, setExpense] = useState({ name: '', amount: '', date: '', type: '' });
+  const Navigate=useNavigate();
+  const ExpenseNameVal=useRef();
+  const AmountVal=useRef();
+  const typeVal=useRef();
+  const dispatch=useDispatch();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setExpense({ ...expense, [name]: value });
-  };
+   const BackHandler=()=>{
+     Navigate("/")
+   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    if (expense.name && expense.amount && expense.date && expense.type) {
-      toast.success('Expense added successfully!');
-      setExpense({ name: '', amount: '', date: '', type: '' });
-    } else {
-      toast.error('Please fill in all fields.');
+    const ExpenseData={
+       name: ExpenseNameVal.current.value,
+       amount: AmountVal.current.value,
+       type: typeVal.current.value
     }
+    console.log("ExpenseData",ExpenseData)
+       try{
+          const response=await fetch("https://expensepractice-8069b-default-rtdb.firebaseio.com/user.json",{
+             method: 'POST',
+             body: JSON.stringify(ExpenseData),
+             headers:{
+              'Content-Type': 'application/json',
+             },
+          });
+          if(!response.ok){
+            throw new Error('Something went wrong');
+          }
+          const data=await response.json()
+          const NewData={...ExpenseData, id: data.name}
+          
+          toast.success("Adding successfully", {
+            position: "top-center"
+          });
+          console.log("afterData",NewData);
+          dispatch(expenseAction.addExpense(NewData));
+       }catch(error){
+         console.log(error);
+         toast.error('Something Error');
+       }
   };
 
   return (
     <div className="expense-form-container">
       <ToastContainer />
+      <button className='btn1' onClick={BackHandler}>Back</button>
       <h2>Add Expense</h2>
       <form onSubmit={handleSubmit} className="expense-form">
         <div className="form-group">
@@ -32,8 +62,7 @@ const AddExpense = () => {
           <input 
             type="text" 
             name="name" 
-            value={expense.name} 
-            onChange={handleChange} 
+            ref={ExpenseNameVal}
             placeholder="Enter expense name" 
           />
         </div>
@@ -42,14 +71,13 @@ const AddExpense = () => {
           <input 
             type="number" 
             name="amount" 
-            value={expense.amount} 
-            onChange={handleChange} 
+            ref={AmountVal}
             placeholder="Enter amount" 
           />
         </div>
         <div className="form-group">
           <label>Type</label>
-          <select name="type" value={expense.type} onChange={handleChange}>
+          <select name="type" ref={typeVal}>
             <option value="">Select type</option>
             <option value="domestic">Domestic</option>
             <option value="entertainment">Entertainment</option>
